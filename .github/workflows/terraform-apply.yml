@@ -1,0 +1,56 @@
+name: Shared Terraform Apply
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        required: true
+        type: string
+        description: "The directory containing the Terraform configuration (e.g., terraform/01-storage)"
+      aws-region:
+        required: false
+        type: string
+        default: "us-east-1"
+        description: "The AWS Region"
+      role-to-assume:
+        required: true
+        type: string
+        description: "The ARN of the AWS IAM Role to assume via OIDC"
+
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for claiming the OIDC JWT Token
+      contents: read  # Required for actions/checkout
+    
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ inputs.role-to-assume }}
+          aws-region: ${{ inputs.aws-region }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.14.0"
+
+      - name: Terraform Init
+        run: terraform init -backend-config=backend.hcl
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
