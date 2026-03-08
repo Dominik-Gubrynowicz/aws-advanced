@@ -61,8 +61,3 @@ Deployments are strictly broken down into sequential phases to manage dependenci
 ## GitHub Actions CI/CD
 
 The `.github/workflows/deploy.yml` completely automates the release process when merging to `main`. It uses the centralized `.github/workflows/terraform-apply.yml` to assume the AWS Role via OpenID Connect (OIDC) and run `terraform apply` across all phases securely.
-
-## Prerequisites for Development
-- AWS CLI
-- Terraform >= 1.9.0
-- Python 3.12 (for iterating on Lambdas)
