@@ -28,7 +28,7 @@ jobs:
     with:
       working-directory: terraform/account
       aws-region: eu-west-1
-      role-to-assume: $AWS_ROLE_ARN
+      role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
   # ----------------------------------------------------------------------------
   # Phase 1: Storage
@@ -39,7 +39,7 @@ jobs:
     with:
       working-directory: terraform/01-storage
       aws-region: eu-west-1
-      role-to-assume: $AWS_ROLE_ARN
+      role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
   # ----------------------------------------------------------------------------
   # Phase 2: Pipeline
   # ----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ jobs:
     with:
       working-directory: terraform/02-pipeline
       aws-region: eu-west-1
-      role-to-assume: $AWS_ROLE_ARN
+      role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
   # ----------------------------------------------------------------------------
   # Phase 3: API
@@ -62,7 +62,7 @@ jobs:
     with:
       working-directory: terraform/03-api
       aws-region: eu-west-1
-      role-to-assume: $AWS_ROLE_ARN
+      role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
   # ----------------------------------------------------------------------------
   # Phase 4: CDN
@@ -74,7 +74,7 @@ jobs:
     with:
       working-directory: terraform/04-cdn
       aws-region: eu-west-1
-      role-to-assume: $AWS_ROLE_ARN
+      role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
   # ----------------------------------------------------------------------------
   # Phase 5: Frontend
   # ----------------------------------------------------------------------------
@@ -85,4 +85,4 @@ jobs:
     with:
       working-directory: terraform/05-frontend
       aws-region: eu-west-1
-      role-to-assume: $AWS_ROLE_ARN
+      role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
